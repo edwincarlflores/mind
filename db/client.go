@@ -21,4 +21,16 @@ var Thoughts = []Thought{
 		Description: "Test tought",
 		Public:      true,
 	},
+	{
+		ID:          3,
+		Body:        "Third thought",
+		Description: "Test tought",
+		Public:      true,
+	},
+	{
+		ID:          4,
+		Body:        "Fourth thought",
+		Description: "Test tought",
+		Public:      false,
+	},
 }

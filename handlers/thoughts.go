@@ -1,4 +1,4 @@
-package app
+package handlers
 
 import (
 	"github.com/a-h/templ"
@@ -12,18 +12,10 @@ func HTML(c echo.Context, comp templ.Component) error {
 	return comp.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func App() {
-	e := echo.New()
+func HandleRender(c echo.Context) error {
+	return HTML(c, mindpage.MindPage())
+}
 
-	e.Static("/static", "static")
-
-	e.GET("/", func(c echo.Context) error {
-		return HTML(c, mindpage.MindPage())
-	})
-
-	e.GET("/thoughts", func(c echo.Context) error {
-		return HTML(c, mindpage.Thoughts(db.Thoughts))
-	})
-
-	e.Logger.Fatal(e.Start(":8080"))
+func HandleGetAllThoughts(c echo.Context) error {
+	return HTML(c, mindpage.Thoughts(db.Thoughts))
 }
