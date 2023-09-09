@@ -1,9 +1,12 @@
 package templates
 
-import common "github.com/edwincarlflores/mind/templates/common"
-import "github.com/edwincarlflores/mind/db"
+import (
+  "github.com/edwincarlflores/mind/db/repository"
+  common "github.com/edwincarlflores/mind/templates/common"
+  "fmt"
+)
 
-templ Thought(thought db.Thought) {
+templ Thought(thought repository.Thought) {
   <div class="flex flex-row space-x-3">
     <p>{ thought.Body }</p>
     <input
@@ -13,16 +16,16 @@ templ Thought(thought db.Thought) {
   </div>
 }
 
-templ Thoughts(thoughts []db.Thought) {
+templ Thoughts(thoughts []repository.Thought) {
     for _, thought := range thoughts {
       @Thought(thought)
     }
 }
 
-templ MindPage() {
-  @common.Page("Mind") {
+templ MindPage(mindID int) {
+  @common.Page("Mind", mindID) {
     <div
-      hx-get="/thoughts"
+      hx-get={fmt.Sprintf("%d/thoughts", mindID)}
       hx-trigger="load"
       hx-swap="innerHTML"
       id="thoughts-container"

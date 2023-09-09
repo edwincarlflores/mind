@@ -9,10 +9,13 @@ import "context"
 import "io"
 import "bytes"
 
-import common "github.com/edwincarlflores/mind/templates/common"
-import "github.com/edwincarlflores/mind/db"
+import (
+	"fmt"
+	"github.com/edwincarlflores/mind/db/repository"
+	common "github.com/edwincarlflores/mind/templates/common"
+)
 
-func Thought(thought db.Thought) templ.Component {
+func Thought(thought repository.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -55,7 +58,7 @@ func Thought(thought db.Thought) templ.Component {
 	})
 }
 
-func Thoughts(thoughts []db.Thought) templ.Component {
+func Thoughts(thoughts []repository.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -81,7 +84,7 @@ func Thoughts(thoughts []db.Thought) templ.Component {
 	})
 }
 
-func MindPage() templ.Component {
+func MindPage(mindID int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -100,7 +103,15 @@ func MindPage() templ.Component {
 				templBuffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templBuffer)
 			}
-			_, err = templBuffer.WriteString("<div hx-get=\"/thoughts\" hx-trigger=\"load\" hx-swap=\"innerHTML\" id=\"thoughts-container\"></div>")
+			_, err = templBuffer.WriteString("<div hx-get=\"")
+			if err != nil {
+				return err
+			}
+			_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%d/thoughts", mindID)))
+			if err != nil {
+				return err
+			}
+			_, err = templBuffer.WriteString("\" hx-trigger=\"load\" hx-swap=\"innerHTML\" id=\"thoughts-container\"></div>")
 			if err != nil {
 				return err
 			}
@@ -109,7 +120,7 @@ func MindPage() templ.Component {
 			}
 			return err
 		})
-		err = common.Page("Mind").Render(templ.WithChildren(ctx, var_5), templBuffer)
+		err = common.Page("Mind", mindID).Render(templ.WithChildren(ctx, var_5), templBuffer)
 		if err != nil {
 			return err
 		}

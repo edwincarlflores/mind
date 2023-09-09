@@ -118,7 +118,7 @@ func Container() templ.Component {
 	})
 }
 
-func Page(pageName string) templ.Component {
+func Page(pageName string, mindID int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -141,7 +141,7 @@ func Page(pageName string) templ.Component {
 			if err != nil {
 				return err
 			}
-			err = Navbar().Render(ctx, templBuffer)
+			err = Navbar(mindID).Render(ctx, templBuffer)
 			if err != nil {
 				return err
 			}

@@ -38,10 +38,10 @@ templ Container() {
 	</div>
 }
 
-templ Page(pageName string) {
+templ Page(pageName string, mindID int) {
 	@BaseHtml(pageName) {
 		<div class="bg-slate-50">
-			@Navbar()
+			@Navbar(mindID)
 			@Container() {
 				{ children... }
 			}
