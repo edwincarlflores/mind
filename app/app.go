@@ -2,7 +2,8 @@ package app
 
 import (
 	"github.com/a-h/templ"
-	hellopage "github.com/edwincarlflores/mind/templates/hello"
+	"github.com/edwincarlflores/mind/db"
+	mindpage "github.com/edwincarlflores/mind/templates/mind"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,12 +18,7 @@ func App() {
 	e.Static("/static", "static")
 
 	e.GET("/", func(c echo.Context) error {
-		return HTML(c, hellopage.HelloPage())
-	})
-
-	e.POST("hello", func(c echo.Context) error {
-		name := c.FormValue("name")
-		return HTML(c, hellopage.HelloName(name))
+		return HTML(c, mindpage.MindPage(db.Thoughts))
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))

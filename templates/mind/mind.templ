@@ -1,0 +1,28 @@
+package templates
+
+import common "github.com/edwincarlflores/mind/templates/common"
+import "github.com/edwincarlflores/mind/db"
+
+templ Thought(thought db.Thought) {
+  <div class="flex flex-row space-x-3">
+      <p>{ thought.Body }</p>
+      <input
+        type="checkbox"
+        checked?={thought.Public}
+      />
+    </div>
+}
+
+templ Thoughts(thoughts []db.Thought) {
+  <div>
+    for _, thought := range thoughts {
+      @Thought(thought)
+    }
+  </div>
+}
+
+templ MindPage(thoughts []db.Thought) {
+  @common.Page("Mind") {
+    @Thoughts(thoughts)
+  }
+}
