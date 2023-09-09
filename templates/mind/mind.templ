@@ -19,7 +19,7 @@ templ Thoughts(thoughts []db.Thought) {
     }
 }
 
-templ MindPage(thoughts []db.Thought) {
+templ MindPage() {
   @common.Page("Mind") {
     <div
       hx-get="/thoughts"

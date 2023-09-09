@@ -81,7 +81,7 @@ func Thoughts(thoughts []db.Thought) templ.Component {
 	})
 }
 
-func MindPage(thoughts []db.Thought) templ.Component {
+func MindPage() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {

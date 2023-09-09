@@ -18,7 +18,7 @@ func App() {
 	e.Static("/static", "static")
 
 	e.GET("/", func(c echo.Context) error {
-		return HTML(c, mindpage.MindPage(db.Thoughts))
+		return HTML(c, mindpage.MindPage())
 	})
 
 	e.GET("/thoughts", func(c echo.Context) error {
