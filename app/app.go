@@ -21,5 +21,9 @@ func App() {
 		return HTML(c, mindpage.MindPage(db.Thoughts))
 	})
 
+	e.GET("/thoughts", func(c echo.Context) error {
+		return HTML(c, mindpage.Thoughts(db.Thoughts))
+	})
+
 	e.Logger.Fatal(e.Start(":8080"))
 }

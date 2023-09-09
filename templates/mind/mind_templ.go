@@ -68,19 +68,11 @@ func Thoughts(thoughts []db.Thought) templ.Component {
 			var_3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, err = templBuffer.WriteString("<div>")
-		if err != nil {
-			return err
-		}
 		for _, thought := range thoughts {
 			err = Thought(thought).Render(ctx, templBuffer)
 			if err != nil {
 				return err
 			}
-		}
-		_, err = templBuffer.WriteString("</div>")
-		if err != nil {
-			return err
 		}
 		if !templIsBuffer {
 			_, err = io.Copy(w, templBuffer)
@@ -108,7 +100,7 @@ func MindPage(thoughts []db.Thought) templ.Component {
 				templBuffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templBuffer)
 			}
-			err = Thoughts(thoughts).Render(ctx, templBuffer)
+			_, err = templBuffer.WriteString("<div hx-get=\"/thoughts\" hx-trigger=\"load\" hx-swap=\"innerHTML\" id=\"thoughts-container\"></div>")
 			if err != nil {
 				return err
 			}
