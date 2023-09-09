@@ -19,12 +19,12 @@ func NewThoughtRepository(conn *sqlx.DB) *ThoughtRepository {
 	}
 }
 
-func (r *ThoughtRepository) GetAllThoughts(mindId int) ([]Thought, error) {
-	thoughts := []Thought{}
+func (r *ThoughtRepository) GetAllThoughts(mindId int) ([]*Thought, error) {
+	thoughts := []*Thought{}
 
 	err := r.Conn.Select(&thoughts, "SELECT body, description, kind, public FROM thought WHERE mind_id = ?", mindId)
 	if err != nil {
-		return thoughts, err
+		return nil, err
 	}
 
 	return thoughts, nil

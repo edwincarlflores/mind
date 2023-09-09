@@ -27,14 +27,18 @@ func SetupAndRunApp() error {
 	// Serve static files from /static directory
 	e.Static("/static", "static")
 
-	// Inject db connection to thought repository
+	// Inject DB connection to repositories
+	mindRepo := repository.NewMindRepository(conn)
 	thoughtRepo := repository.NewThoughtRepository(conn)
+
+	// Inject mind repository to mind handler
+	mindHandler := handlers.NewMindHandler(mindRepo)
 
 	// Inject thought repository to thought handler
 	thoughtHandler := handlers.NewThoughtHandler(thoughtRepo)
 
 	// Setup routes
-	router.SetupRoutes(e, thoughtHandler)
+	router.SetupRoutes(e, thoughtHandler, mindHandler)
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 

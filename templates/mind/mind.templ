@@ -6,7 +6,7 @@ import (
   "fmt"
 )
 
-templ Thought(thought repository.Thought) {
+templ Thought(thought *repository.Thought) {
   <div class="flex flex-row space-x-3">
     <p>{ thought.Body }</p>
     <input
@@ -16,7 +16,7 @@ templ Thought(thought repository.Thought) {
   </div>
 }
 
-templ Thoughts(thoughts []repository.Thought) {
+templ Thoughts(thoughts []*repository.Thought) {
     for _, thought := range thoughts {
       @Thought(thought)
     }

@@ -15,7 +15,7 @@ import (
 	common "github.com/edwincarlflores/mind/templates/common"
 )
 
-func Thought(thought repository.Thought) templ.Component {
+func Thought(thought *repository.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -58,7 +58,7 @@ func Thought(thought repository.Thought) templ.Component {
 	})
 }
 
-func Thoughts(thoughts []repository.Thought) templ.Component {
+func Thoughts(thoughts []*repository.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
