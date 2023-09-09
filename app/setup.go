@@ -1,6 +1,8 @@
 package app
 
 import (
+	"os"
+
 	"github.com/edwincarlflores/mind/config"
 	database "github.com/edwincarlflores/mind/db"
 	"github.com/edwincarlflores/mind/db/repository"
@@ -34,7 +36,7 @@ func SetupAndRunApp() error {
 	// Setup routes
 	router.SetupRoutes(e, thoughtHandler)
 
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 
 	return nil
 }
