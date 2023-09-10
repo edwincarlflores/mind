@@ -9,6 +9,7 @@ import (
 	"github.com/edwincarlflores/mind/handlers"
 	"github.com/edwincarlflores/mind/router"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func SetupAndRunApp() error {
@@ -26,6 +27,8 @@ func SetupAndRunApp() error {
 
 	// Serve static files from /static directory
 	e.Static("/static", "static")
+
+	e.Use(middleware.Logger())
 
 	// Inject DB connection to repositories
 	mindRepo := repository.NewMindRepository(conn)
