@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+)
 
 type MindRepository struct {
 	Conn *sqlx.DB
@@ -23,6 +25,10 @@ func (r *MindRepository) GetMind(id int) (*Mind, error) {
 	err := r.Conn.Select(&mindRows, "SELECT id, owner_token FROM mind WHERE id = ?", id)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(mindRows) == 0 {
+		return nil, nil
 	}
 
 	return mindRows[0], nil

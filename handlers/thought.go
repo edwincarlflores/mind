@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/edwincarlflores/mind/db/repository"
+	common "github.com/edwincarlflores/mind/templates/common"
 	mindpage "github.com/edwincarlflores/mind/templates/mind"
 	"github.com/edwincarlflores/mind/utils"
 	"github.com/labstack/echo/v4"
@@ -23,13 +24,13 @@ func NewThoughtHandler(repo *repository.ThoughtRepository) *ThoughtHandler {
 func (h *ThoughtHandler) HandleGetAllThoughts(c echo.Context) error {
 	mindID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return utils.HTML(c, http.StatusBadRequest, common.ErrorPage(err.Error()))
 	}
 
 	thoughts, err := h.Repo.GetAllThoughts(mindID)
 	if err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return utils.HTML(c, http.StatusBadRequest, common.ErrorPage(err.Error()))
 	}
 
-	return utils.HTML(c, mindpage.Thoughts(thoughts))
+	return utils.HTML(c, http.StatusOK, mindpage.Thoughts(thoughts))
 }
