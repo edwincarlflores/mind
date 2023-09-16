@@ -46,7 +46,7 @@ func ErrorPage(errorMessage string) templ.Component {
 			}
 			return err
 		})
-		err = Page("Error", 0).Render(templ.WithChildren(ctx, var_2), templBuffer)
+		err = Page("Error", "").Render(templ.WithChildren(ctx, var_2), templBuffer)
 		if err != nil {
 			return err
 		}

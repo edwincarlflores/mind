@@ -5,9 +5,10 @@ import (
 
 	"github.com/edwincarlflores/mind/config"
 	database "github.com/edwincarlflores/mind/db"
-	"github.com/edwincarlflores/mind/db/repository"
 	"github.com/edwincarlflores/mind/handlers"
+	"github.com/edwincarlflores/mind/repository"
 	"github.com/edwincarlflores/mind/router"
+	"github.com/edwincarlflores/mind/service"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -31,17 +32,16 @@ func SetupAndRunApp() error {
 	e.Use(middleware.Logger())
 
 	// Inject DB connection to repositories
-	mindRepo := repository.NewMindRepository(conn)
-	thoughtRepo := repository.NewThoughtRepository(conn)
+	repo := repository.NewRepository(conn)
 
-	// Inject mind repository to mind handler
-	mindHandler := handlers.NewMindHandler(mindRepo)
+	// Inject repository to services
+	service := service.NewService(repo)
 
-	// Inject thought repository to thought handler
-	thoughtHandler := handlers.NewThoughtHandler(thoughtRepo)
+	// Inject service to handlers
+	handler := handlers.NewHandler(service)
 
 	// Setup routes
-	router.SetupRoutes(e, thoughtHandler, mindHandler)
+	router.SetupRoutes(e, handler)
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 

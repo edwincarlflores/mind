@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func SetupRoutes(e *echo.Echo, thoughtHandler *handlers.ThoughtHandler, mindHandler *handlers.MindHandler) {
-	e.GET("/:id", mindHandler.HandleGetMind)
-	e.GET("/:id/thoughts", thoughtHandler.HandleGetAllThoughts)
+func SetupRoutes(e *echo.Echo, handler *handlers.Handler) {
+	e.GET("/:username", handler.HandleGetMind)
+	e.GET("/:username/thoughts", handler.HandleGetAllThoughts)
 }

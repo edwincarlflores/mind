@@ -140,7 +140,7 @@ func HelloPage() templ.Component {
 			}
 			return err
 		})
-		err = common.Page("Hello", 0).Render(templ.WithChildren(ctx, var_10), templBuffer)
+		err = common.Page("Hello", "").Render(templ.WithChildren(ctx, var_10), templBuffer)
 		if err != nil {
 			return err
 		}

@@ -11,11 +11,11 @@ import "bytes"
 
 import (
 	"fmt"
-	"github.com/edwincarlflores/mind/db/repository"
+	"github.com/edwincarlflores/mind/entity"
 	common "github.com/edwincarlflores/mind/templates/common"
 )
 
-func Thought(thought *repository.Thought) templ.Component {
+func Thought(thought *entity.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -58,7 +58,7 @@ func Thought(thought *repository.Thought) templ.Component {
 	})
 }
 
-func Thoughts(thoughts []*repository.Thought) templ.Component {
+func Thoughts(thoughts []*entity.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -84,7 +84,7 @@ func Thoughts(thoughts []*repository.Thought) templ.Component {
 	})
 }
 
-func MindPage(mindID int) templ.Component {
+func MindPage(username string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -107,7 +107,7 @@ func MindPage(mindID int) templ.Component {
 			if err != nil {
 				return err
 			}
-			_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%d/thoughts", mindID)))
+			_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%s/thoughts", username)))
 			if err != nil {
 				return err
 			}
@@ -120,7 +120,7 @@ func MindPage(mindID int) templ.Component {
 			}
 			return err
 		})
-		err = common.Page("Mind", mindID).Render(templ.WithChildren(ctx, var_5), templBuffer)
+		err = common.Page("Mind", username).Render(templ.WithChildren(ctx, var_5), templBuffer)
 		if err != nil {
 			return err
 		}

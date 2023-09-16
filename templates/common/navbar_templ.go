@@ -11,7 +11,7 @@ import "bytes"
 
 import "fmt"
 
-func Navbar(mindID int) templ.Component {
+func Navbar(username string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -28,7 +28,7 @@ func Navbar(mindID int) templ.Component {
 		if err != nil {
 			return err
 		}
-		_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%d/thoughts", mindID)))
+		_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%s/thoughts", username)))
 		if err != nil {
 			return err
 		}
