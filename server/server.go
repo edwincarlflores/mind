@@ -1,4 +1,4 @@
-package app
+package server
 
 import (
 	"os"
@@ -13,7 +13,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func SetupAndRunApp() error {
+func SetupAndRunServer() error {
 	// load env
 	err := config.LoadENV()
 	if err != nil {

@@ -1,11 +1,9 @@
 package main
 
-import (
-	"github.com/edwincarlflores/mind/app"
-)
+import "github.com/edwincarlflores/mind/server"
 
 func main() {
-	err := app.SetupAndRunApp()
+	err := server.SetupAndRunServer()
 	if err != nil {
 		panic(err)
 	}

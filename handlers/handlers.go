@@ -43,5 +43,7 @@ func (h *Handler) HandleGetAllThoughts(c echo.Context) error {
 		return utils.HTML(c, http.StatusBadRequest, common.ErrorPage(err.Error()))
 	}
 
-	return utils.HTML(c, http.StatusOK, templates.Thoughts(thoughts))
+	return utils.HTML(c,
+		http.StatusOK,
+		templates.Thoughts(thoughts))
 }
