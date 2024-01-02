@@ -10,7 +10,7 @@ import "io"
 import "bytes"
 
 import (
-	"fmt"
+	"github.com/edwincarlflores/mind/aggregate"
 	"github.com/edwincarlflores/mind/entity"
 	common "github.com/edwincarlflores/mind/templates/common"
 )
@@ -84,7 +84,7 @@ func Thoughts(thoughts []*entity.Thought) templ.Component {
 	})
 }
 
-func MindPage(username string) templ.Component {
+func MindPage(mind *aggregate.Mind) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -103,15 +103,48 @@ func MindPage(username string) templ.Component {
 				templBuffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templBuffer)
 			}
-			_, err = templBuffer.WriteString("<div hx-get=\"")
+			_, err = templBuffer.WriteString("<div id=\"thoughts-container\">")
 			if err != nil {
 				return err
 			}
-			_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%s/thoughts", username)))
+			var_6 := `Hi `
+			_, err = templBuffer.WriteString(var_6)
 			if err != nil {
 				return err
 			}
-			_, err = templBuffer.WriteString("\" hx-trigger=\"load\" hx-swap=\"innerHTML\" id=\"thoughts-container\"></div>")
+			var var_7 string = mind.User.Name
+			_, err = templBuffer.WriteString(templ.EscapeString(var_7))
+			if err != nil {
+				return err
+			}
+			_, err = templBuffer.WriteString(" ")
+			if err != nil {
+				return err
+			}
+			var_8 := `(`
+			_, err = templBuffer.WriteString(var_8)
+			if err != nil {
+				return err
+			}
+			var var_9 string = mind.User.Username
+			_, err = templBuffer.WriteString(templ.EscapeString(var_9))
+			if err != nil {
+				return err
+			}
+			var_10 := `)`
+			_, err = templBuffer.WriteString(var_10)
+			if err != nil {
+				return err
+			}
+			_, err = templBuffer.WriteString(" ")
+			if err != nil {
+				return err
+			}
+			err = Thoughts(mind.Thoughts).Render(ctx, templBuffer)
+			if err != nil {
+				return err
+			}
+			_, err = templBuffer.WriteString("</div>")
 			if err != nil {
 				return err
 			}
@@ -120,7 +153,7 @@ func MindPage(username string) templ.Component {
 			}
 			return err
 		})
-		err = common.Page("Mind", username).Render(templ.WithChildren(ctx, var_5), templBuffer)
+		err = common.Page("Mind", mind.User.Username).Render(templ.WithChildren(ctx, var_5), templBuffer)
 		if err != nil {
 			return err
 		}

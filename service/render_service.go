@@ -1,13 +1,14 @@
 package service
 
 import (
-	"github.com/edwincarlflores/mind/entity"
+	"fmt"
+
+	"github.com/edwincarlflores/mind/aggregate"
 	"github.com/edwincarlflores/mind/repository"
 )
 
 type RenderServiceInterface interface {
-	GetMindByUserName(userName string) (*entity.Mind, error)
-	GetAllThoughtsByUserName(userName string) ([]*entity.Thought, error)
+	GetMindByUserName(userName string) (*aggregate.Mind, error)
 }
 
 type RenderService struct {
@@ -20,30 +21,29 @@ func NewRenderService(repo *repository.Repository) *RenderService {
 	}
 }
 
-func (s *RenderService) GetMindByUserName(userName string) (*entity.Mind, error) {
+func (s *RenderService) GetMindByUserName(userName string) (*aggregate.Mind, error) {
 	user, err := s.repo.UserRepository.GetUserByUserName(userName)
 	if err != nil {
 		return nil, err
 	}
 
-	mind, err := s.repo.MindRepisitory.GetMindByUserID(user.ID)
+	if user == nil {
+		return nil, fmt.Errorf("invalid user")
+	}
+
+	thoughts, err := s.repo.ThoughtRepository.GetAllThoughtsByUserID(user.ID.String())
+	if err != nil {
+		return nil, err
+	}
+
+	if user == nil || thoughts == nil {
+		return nil, fmt.Errorf("invalid user or thoughts")
+	}
+
+	mind, err := aggregate.MindFromEntities(user, thoughts)
 	if err != nil {
 		return nil, err
 	}
 
 	return mind, nil
-}
-
-func (s *RenderService) GetAllThoughtsByUserName(userName string) ([]*entity.Thought, error) {
-	user, err := s.repo.UserRepository.GetUserByUserName(userName)
-	if err != nil {
-		return nil, err
-	}
-
-	thoughts, err := s.repo.ThoughtRepository.GetAllThoughtsByUserID(user.ID)
-	if err != nil {
-		return nil, err
-	}
-
-	return thoughts, nil
 }

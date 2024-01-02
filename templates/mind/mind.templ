@@ -1,34 +1,32 @@
 package templates
 
 import (
-  "github.com/edwincarlflores/mind/entity"
-  common "github.com/edwincarlflores/mind/templates/common"
-  "fmt"
+	"github.com/edwincarlflores/mind/entity"
+	common "github.com/edwincarlflores/mind/templates/common"
+	"github.com/edwincarlflores/mind/aggregate"
 )
 
 templ Thought(thought *entity.Thought) {
-  <div class="flex flex-row space-x-3">
-    <p>{ thought.Body }</p>
-    <input
-      type="checkbox"
-      checked?={thought.Public}
-    />
-  </div>
+	<div class="flex flex-row space-x-3">
+		<p>{ thought.Body }</p>
+		<input
+ 			type="checkbox"
+ 			checked?={ thought.Public }
+		/>
+	</div>
 }
 
 templ Thoughts(thoughts []*entity.Thought) {
-    for _, thought := range thoughts {
-      @Thought(thought)
-    }
+	for _, thought := range thoughts {
+		@Thought(thought)
+	}
 }
 
-templ MindPage(username string) {
-  @common.Page("Mind", username) {
-    <div
-      hx-get={fmt.Sprintf("%s/thoughts", username)}
-      hx-trigger="load"
-      hx-swap="innerHTML"
-      id="thoughts-container"
-    />
-  }
+templ MindPage(mind *aggregate.Mind) {
+	@common.Page("Mind", mind.User.Username) {
+		<div id="thoughts-container">
+			Hi { mind.User.Name } ({ mind.User.Username })
+			@Thoughts(mind.Thoughts)
+		</div>
+	}
 }

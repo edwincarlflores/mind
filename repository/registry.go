@@ -1,17 +1,19 @@
 package repository
 
-import database "github.com/edwincarlflores/mind/db"
+import (
+	database "github.com/edwincarlflores/mind/db"
+	thoughtRepo "github.com/edwincarlflores/mind/repository/thought"
+	userRepo "github.com/edwincarlflores/mind/repository/user"
+)
 
 type Repository struct {
-	MindRepisitory    MindRepository
-	ThoughtRepository ThoughtRepository
-	UserRepository    UserRepository
+	ThoughtRepository thoughtRepo.ThoughtRepository
+	UserRepository    userRepo.UserRepository
 }
 
-func NewRepository(db database.DB) *Repository {
+func NewRepository(db database.DBInterface) *Repository {
 	return &Repository{
-		MindRepisitory:    NewMindDBRepository(db),
-		ThoughtRepository: NewThoughtDBRepository(db),
-		UserRepository:    NewUserDBRepository(db),
+		ThoughtRepository: thoughtRepo.NewThoughtDBRepository(db),
+		UserRepository:    userRepo.NewUserDBRepository(db),
 	}
 }

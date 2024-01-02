@@ -1,8 +1,8 @@
-package entity
+package repository
 
 import "github.com/google/uuid"
 
-type Thought struct {
+type dbThought struct {
 	ID          uuid.UUID `db:"id"`
 	UUID        uuid.UUID `db:"uuid"`
 	Body        string    `db:"body"`
@@ -10,6 +10,4 @@ type Thought struct {
 	Kind        string    `db:"kind"`
 	Public      bool      `db:"public"`
 	UserID      uuid.UUID `db:"user_id"`
-	CreatedAt   string    `db:"created_at"`
-	UpdatedAt   string    `db:"updated_at"`
 }

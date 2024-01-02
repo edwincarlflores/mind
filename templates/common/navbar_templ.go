@@ -28,7 +28,7 @@ func Navbar(username string) templ.Component {
 		if err != nil {
 			return err
 		}
-		_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("%s/thoughts", username)))
+		_, err = templBuffer.WriteString(templ.EscapeString(fmt.Sprintf("/%s", username)))
 		if err != nil {
 			return err
 		}

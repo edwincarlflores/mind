@@ -21,7 +21,8 @@ func SetupAndRunServer() error {
 	}
 
 	// Connect to database
-	conn := database.CreateDBConnection()
+	// conn := database.CreateDBConnection()
+	conn := database.Client()
 
 	// Instantiate app server
 	e := echo.New()

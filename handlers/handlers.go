@@ -6,7 +6,6 @@ import (
 	"github.com/edwincarlflores/mind/service"
 	common "github.com/edwincarlflores/mind/templates/common"
 	templates "github.com/edwincarlflores/mind/templates/mind"
-	"github.com/edwincarlflores/mind/utils"
 	"github.com/labstack/echo/v4"
 )
 
@@ -25,25 +24,12 @@ func (h *Handler) HandleGetMind(c echo.Context) error {
 
 	mind, err := h.svc.RenderService.GetMindByUserName(userName)
 	if err != nil {
-		return utils.HTML(c, http.StatusBadRequest, common.ErrorPage(err.Error()))
+		return render(c, http.StatusBadRequest, common.ErrorPage(err.Error()))
 	}
 
-	if mind == nil {
-		return utils.HTML(c, http.StatusNotFound, common.ErrorPage("This mind and it's memories doesn't exist"))
+	if mind.Thoughts == nil || mind.User == nil {
+		return render(c, http.StatusNotFound, common.ErrorPage("This mind and it's memories doesn't exist"))
 	}
 
-	return utils.HTML(c, http.StatusOK, templates.MindPage(userName))
-}
-
-func (h *Handler) HandleGetAllThoughts(c echo.Context) error {
-	userName := c.Param("username")
-
-	thoughts, err := h.svc.RenderService.GetAllThoughtsByUserName(userName)
-	if err != nil {
-		return utils.HTML(c, http.StatusBadRequest, common.ErrorPage(err.Error()))
-	}
-
-	return utils.HTML(c,
-		http.StatusOK,
-		templates.Thoughts(thoughts))
+	return render(c, http.StatusOK, templates.MindPage(mind))
 }
