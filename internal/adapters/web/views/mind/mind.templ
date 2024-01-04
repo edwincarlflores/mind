@@ -1,0 +1,32 @@
+package views
+
+import (
+	"github.com/edwincarlflores/mind/internal/core/domain/thought"
+	common "github.com/edwincarlflores/mind/internal/adapters/web/views/common"
+	"github.com/edwincarlflores/mind/internal/core/domain/mind"
+)
+
+templ Thought(thought *thought.Thought) {
+	<div class="flex flex-row space-x-3">
+		<p>{ thought.Body }</p>
+		<input
+ 			type="checkbox"
+ 			checked?={ thought.Public }
+		/>
+	</div>
+}
+
+templ Thoughts(thoughts []*thought.Thought) {
+	for _, thought := range thoughts {
+		@Thought(thought)
+	}
+}
+
+templ MindPage(mind *mind.Mind) {
+	@common.Page("Mind", mind.User.Username) {
+		<div id="thoughts-container">
+			Hi { mind.User.Name } ({ mind.User.Username })
+			@Thoughts(mind.Thoughts)
+		</div>
+	}
+}

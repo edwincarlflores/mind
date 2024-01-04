@@ -1,0 +1,25 @@
+package views
+
+import "fmt"
+
+templ Navbar(username string) {
+	<nav class="fixed inset-x-0 z-50 bg-zinc-100 bg-opacity-70 shadow-lg backdrop-blur-lg">
+		<div class="mx-auto max-w-full px-4">
+			<div class="flex items-center sm:space-x-4 sm:px-3">
+				<div
+ 					class="font-bold text-gray-700 hover:text-gray-900"
+				>
+					<a hx-get={ fmt.Sprintf("/%s", username) } hx-target="#thoughts-container" hx-swap="innerHTML" class="flex items-center">
+						<img src="/static/images/mind-logo.png" class="h-12 w-12" alt="Mind"/>
+						<span class="hidden font-mono text-lg sm:block">Mind</span>
+					</a>
+				</div>
+				<div class="grow p-4">
+					<div class="w-full md:w-1/2">
+						Search Field Placeholder
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+}
