@@ -9,7 +9,7 @@ import "context"
 import "io"
 import "bytes"
 
-import common "github.com/edwincarlflores/mind/internal/adapters/web/views/common"
+import common "github.com/edwincarlflores/mind/internal/app/views/common"
 
 func Hello() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {

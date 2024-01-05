@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	common "github.com/edwincarlflores/mind/internal/adapters/web/views/common"
-	views "github.com/edwincarlflores/mind/internal/adapters/web/views/mind"
+	common "github.com/edwincarlflores/mind/internal/app/views/common"
+	views "github.com/edwincarlflores/mind/internal/app/views/mind"
 	"github.com/edwincarlflores/mind/internal/core/services"
 	"github.com/labstack/echo/v4"
 )

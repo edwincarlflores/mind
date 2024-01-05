@@ -1,4 +1,4 @@
-package server
+package app
 
 import (
 	"os"
@@ -6,14 +6,14 @@ import (
 	"github.com/edwincarlflores/mind/config"
 	"github.com/edwincarlflores/mind/internal/adapters/mysql"
 	repository "github.com/edwincarlflores/mind/internal/adapters/mysql/repository"
-	"github.com/edwincarlflores/mind/internal/adapters/web/handlers"
-	"github.com/edwincarlflores/mind/internal/adapters/web/routes"
+	"github.com/edwincarlflores/mind/internal/app/handlers"
+	"github.com/edwincarlflores/mind/internal/app/routes"
 	"github.com/edwincarlflores/mind/internal/core/services"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func SetupAndRunWebServer() error {
+func SetupAndRun() error {
 	// load env
 	err := config.LoadENV()
 	if err != nil {
@@ -27,7 +27,7 @@ func SetupAndRunWebServer() error {
 	e := echo.New()
 
 	// Serve static files from /static directory
-	e.Static("/static", "internal/adapters/web/static")
+	e.Static("/static", "internal/app/static")
 
 	e.Use(middleware.Logger())
 

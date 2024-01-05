@@ -1,9 +1,9 @@
 package main
 
-import web "github.com/edwincarlflores/mind/internal/adapters/web"
+import "github.com/edwincarlflores/mind/internal/app"
 
 func main() {
-	err := web.SetupAndRunWebServer()
+	err := app.SetupAndRun()
 	if err != nil {
 		panic(err)
 	}

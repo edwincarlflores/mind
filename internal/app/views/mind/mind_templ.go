@@ -10,7 +10,7 @@ import "io"
 import "bytes"
 
 import (
-	common "github.com/edwincarlflores/mind/internal/adapters/web/views/common"
+	common "github.com/edwincarlflores/mind/internal/app/views/common"
 	"github.com/edwincarlflores/mind/internal/core/domain/mind"
 	"github.com/edwincarlflores/mind/internal/core/domain/thought"
 )

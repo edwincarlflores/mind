@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/edwincarlflores/mind/internal/adapters/web/handlers"
+	"github.com/edwincarlflores/mind/internal/app/handlers"
 	"github.com/labstack/echo/v4"
 )
 
