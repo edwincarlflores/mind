@@ -10,12 +10,11 @@ import "io"
 import "bytes"
 
 import (
-	common "github.com/edwincarlflores/mind/internal/app/views/common"
-	"github.com/edwincarlflores/mind/internal/core/domain/mind"
-	"github.com/edwincarlflores/mind/internal/core/domain/thought"
+	shared "github.com/edwincarlflores/mind/internal/app/views/shared"
+	"github.com/edwincarlflores/mind/internal/core/domain"
 )
 
-func Thought(thought *thought.Thought) templ.Component {
+func Thought(thought *domain.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -58,7 +57,7 @@ func Thought(thought *thought.Thought) templ.Component {
 	})
 }
 
-func Thoughts(thoughts []*thought.Thought) templ.Component {
+func Thoughts(thoughts []*domain.Thought) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -84,7 +83,7 @@ func Thoughts(thoughts []*thought.Thought) templ.Component {
 	})
 }
 
-func MindPage(mind *mind.Mind) templ.Component {
+func MindPage(mind *domain.Mind) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -153,7 +152,7 @@ func MindPage(mind *mind.Mind) templ.Component {
 			}
 			return err
 		})
-		err = common.Page("Mind", mind.User.Username).Render(templ.WithChildren(ctx, var_5), templBuffer)
+		err = shared.Page("Mind", mind.User.Username).Render(templ.WithChildren(ctx, var_5), templBuffer)
 		if err != nil {
 			return err
 		}

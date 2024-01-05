@@ -3,12 +3,12 @@ package services
 import (
 	"fmt"
 
-	"github.com/edwincarlflores/mind/internal/core/domain/mind"
+	"github.com/edwincarlflores/mind/internal/core/domain"
 	"github.com/edwincarlflores/mind/internal/ports"
 )
 
 type RenderServiceInterface interface {
-	GetMindByUserName(userName string) (*mind.Mind, error)
+	GetMindByUserName(userName string) (*domain.Mind, error)
 }
 
 type RenderService struct {
@@ -21,7 +21,7 @@ func NewRenderService(repo *ports.Repository) *RenderService {
 	}
 }
 
-func (s *RenderService) GetMindByUserName(userName string) (*mind.Mind, error) {
+func (s *RenderService) GetMindByUserName(userName string) (*domain.Mind, error) {
 	user, err := s.repo.UserRepository.GetUserByUserName(userName)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func (s *RenderService) GetMindByUserName(userName string) (*mind.Mind, error) {
 		return nil, fmt.Errorf("invalid user or thoughts")
 	}
 
-	mind, err := mind.MindFromEntities(user, thoughts)
+	mind, err := domain.MindFromEntities(user, thoughts)
 	if err != nil {
 		return nil, err
 	}

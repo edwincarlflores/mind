@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/edwincarlflores/mind/internal/adapters/mysql"
-	"github.com/edwincarlflores/mind/internal/core/domain/user"
+	"github.com/edwincarlflores/mind/internal/core/domain"
 	"github.com/google/uuid"
 )
 
@@ -33,7 +33,7 @@ type dbUser struct {
 	UpdatedAt string    `db:"updated_at"`
 }
 
-func (r *UserDBRepository) GetUserByUserName(userName string) (*user.User, error) {
+func (r *UserDBRepository) GetUserByUserName(userName string) (*domain.User, error) {
 	userDB := dbUser{}
 
 	err := r.DB.Get(&userDB, "SELECT id, name, username FROM user WHERE username = ?", userName)
@@ -52,8 +52,8 @@ func (r *UserDBRepository) GetUserByUserName(userName string) (*user.User, error
 	return user, nil
 }
 
-func fromDBUser(dbu *dbUser) *user.User {
-	return &user.User{
+func fromDBUser(dbu *dbUser) *domain.User {
+	return &domain.User{
 		ID:       dbu.ID,
 		UUID:     dbu.UUID,
 		Username: dbu.Username,

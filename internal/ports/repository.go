@@ -1,11 +1,10 @@
 package ports
 
 import (
-	"github.com/edwincarlflores/mind/internal/core/domain/thought"
-	"github.com/edwincarlflores/mind/internal/core/domain/user"
+	"github.com/edwincarlflores/mind/internal/core/domain"
 )
 
 type Repository struct {
-	ThoughtRepository thought.ThoughtRepository
-	UserRepository    user.UserRepository
+	ThoughtRepository domain.ThoughtRepository
+	UserRepository    domain.UserRepository
 }

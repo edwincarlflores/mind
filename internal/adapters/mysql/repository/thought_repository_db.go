@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/edwincarlflores/mind/internal/adapters/mysql"
-	"github.com/edwincarlflores/mind/internal/core/domain/thought"
+	"github.com/edwincarlflores/mind/internal/core/domain"
 	"github.com/google/uuid"
 )
 
@@ -30,7 +30,7 @@ type dbThought struct {
 	UserID      uuid.UUID `db:"user_id"`
 }
 
-func (r *ThoughtDBRepository) GetAllThoughtsByUserID(userID string) ([]*thought.Thought, error) {
+func (r *ThoughtDBRepository) GetAllThoughtsByUserID(userID string) ([]*domain.Thought, error) {
 	thoughtsDB := []*dbThought{}
 
 	err := r.DB.Select(&thoughtsDB, "SELECT id, body, description, kind, public FROM thought WHERE user_id = ?", userID)
@@ -42,7 +42,7 @@ func (r *ThoughtDBRepository) GetAllThoughtsByUserID(userID string) ([]*thought.
 		return nil, fmt.Errorf("error when retrieving thoughts by user id %s: %w", userID, err)
 	}
 
-	thoughts := []*thought.Thought{}
+	thoughts := []*domain.Thought{}
 	for _, t := range thoughtsDB {
 		thoughts = append(thoughts, fromDBThought(t))
 	}
@@ -50,8 +50,8 @@ func (r *ThoughtDBRepository) GetAllThoughtsByUserID(userID string) ([]*thought.
 	return thoughts, nil
 }
 
-func fromDBThought(dbt *dbThought) *thought.Thought {
-	return &thought.Thought{
+func fromDBThought(dbt *dbThought) *domain.Thought {
+	return &domain.Thought{
 		ID:          dbt.ID,
 		UUID:        dbt.UUID,
 		Body:        dbt.Body,

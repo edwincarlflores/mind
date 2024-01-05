@@ -1,4 +1,4 @@
-package thought
+package domain
 
 import "github.com/google/uuid"
 
@@ -12,4 +12,8 @@ type Thought struct {
 	UserID      uuid.UUID
 	CreatedAt   string
 	UpdatedAt   string
+}
+
+type ThoughtRepository interface {
+	GetAllThoughtsByUserID(userID string) ([]*Thought, error)
 }

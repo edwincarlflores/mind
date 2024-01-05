@@ -1,6 +1,6 @@
 package templates
 
-import common "github.com/edwincarlflores/mind/internal/app/views/common"
+import shared "github.com/edwincarlflores/mind/internal/app/views/shared"
 
 templ Hello() {
 	<div>
@@ -27,7 +27,7 @@ templ HelloName(name string) {
 }
 
 templ HelloPage() {
-	@common.Page("Hello", "") {
+	@shared.Page("Hello", "") {
 		@Hello()
 	}
 }

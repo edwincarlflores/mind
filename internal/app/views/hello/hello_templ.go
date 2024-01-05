@@ -9,7 +9,7 @@ import "context"
 import "io"
 import "bytes"
 
-import common "github.com/edwincarlflores/mind/internal/app/views/common"
+import shared "github.com/edwincarlflores/mind/internal/app/views/shared"
 
 func Hello() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
@@ -140,7 +140,7 @@ func HelloPage() templ.Component {
 			}
 			return err
 		})
-		err = common.Page("Hello", "").Render(templ.WithChildren(ctx, var_10), templBuffer)
+		err = shared.Page("Hello", "").Render(templ.WithChildren(ctx, var_10), templBuffer)
 		if err != nil {
 			return err
 		}

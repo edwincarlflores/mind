@@ -1,6 +1,6 @@
 package views
 
-templ BaseHtml(pageName string) {
+templ Index(pageName string) {
 	<html>
 		<head>
 			<meta charset="UTF-8"/>
@@ -28,24 +28,4 @@ templ BaseHtml(pageName string) {
 			{ children... }
 		</body>
 	</html>
-}
-
-templ Container() {
-	<div
- 		class="container mx-auto h-screen max-w-fit p-6 md:p-6 lg:px-24 lg:py-20"
- 		id="container-body"
-	>
-		{ children... }
-	</div>
-}
-
-templ Page(pageName string, username string) {
-	@BaseHtml(pageName) {
-		<div class="bg-slate-50">
-			@Navbar(username)
-			@Container() {
-				{ children... }
-			}
-		</div>
-	}
 }

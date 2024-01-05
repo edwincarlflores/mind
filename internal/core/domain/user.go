@@ -1,4 +1,4 @@
-package user
+package domain
 
 import "github.com/google/uuid"
 
@@ -11,4 +11,8 @@ type User struct {
 	Email    *string
 	Name     string
 	Provider *string
+}
+
+type UserRepository interface {
+	GetUserByUserName(userName string) (*User, error)
 }
