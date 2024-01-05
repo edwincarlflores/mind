@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/edwincarlflores/mind/internal/core/domain/mind"
-	ports "github.com/edwincarlflores/mind/internal/ports"
+	"github.com/edwincarlflores/mind/internal/ports"
 )
 
 type RenderServiceInterface interface {

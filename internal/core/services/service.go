@@ -1,6 +1,6 @@
 package services
 
-import ports "github.com/edwincarlflores/mind/internal/ports"
+import "github.com/edwincarlflores/mind/internal/ports"
 
 type Service struct {
 	RenderService RenderServiceInterface

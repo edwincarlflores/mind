@@ -1,4 +1,4 @@
-package repository
+package ports
 
 import (
 	"github.com/edwincarlflores/mind/internal/core/domain/thought"
