@@ -14,7 +14,7 @@ import (
 	"github.com/edwincarlflores/mind/internal/core/domain"
 )
 
-func Thought(thought *domain.Thought) templ.Component {
+func Thought(thought *domain.Thought, idx int, isBlank bool) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		templBuffer, templIsBuffer := w.(*bytes.Buffer)
 		if !templIsBuffer {
@@ -27,26 +27,18 @@ func Thought(thought *domain.Thought) templ.Component {
 			var_1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, err = templBuffer.WriteString("<div class=\"flex flex-row space-x-3\"><p>")
+		_, err = templBuffer.WriteString("<div class=\"relative w-full max-w-xs mx-auto space-x-3 my-4\"><textarea x-data=\"{ \n            resize () { \n              $el.style.height = &#39;15px&#39;; \n              $el.style.height = 60 + $el.scrollHeight + &#39;px&#39;\n            } \n        }\" x-init=\"resize()\" @input=\"resize()\" type=\"text\" placeholder=\"What are you thinking?\" class=\"flex relative z-20 peer w-full h-auto min-h-[80px] px-3 py-2 text-sm bg-white border-2 border-neutral-900 placeholder:text-neutral-500 focus:text-neutral-800 focus:border-neutral-900 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50\">")
 		if err != nil {
 			return err
 		}
-		var var_2 string = thought.Body
-		_, err = templBuffer.WriteString(templ.EscapeString(var_2))
-		if err != nil {
-			return err
-		}
-		_, err = templBuffer.WriteString("</p><input type=\"checkbox\"")
-		if err != nil {
-			return err
-		}
-		if thought.Public {
-			_, err = templBuffer.WriteString(" checked")
+		if !isBlank {
+			var var_2 string = thought.Body
+			_, err = templBuffer.WriteString(templ.EscapeString(var_2))
 			if err != nil {
 				return err
 			}
 		}
-		_, err = templBuffer.WriteString("></div>")
+		_, err = templBuffer.WriteString("</textarea><div class=\"absolute inset-0 z-10  h-full duration-300 ease-out translate-x-2 translate-y-2 bg-black peer-focus:m-0 peer-focus:translate-x-0 peer-focus:translate-y-0\"></div></div>")
 		if err != nil {
 			return err
 		}
@@ -70,11 +62,23 @@ func Thoughts(thoughts []*domain.Thought) templ.Component {
 			var_3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		for _, thought := range thoughts {
-			err = Thought(thought).Render(ctx, templBuffer)
+		_, err = templBuffer.WriteString("<div class=\"columns-3\">")
+		if err != nil {
+			return err
+		}
+		err = Thought(nil, -1, true).Render(ctx, templBuffer)
+		if err != nil {
+			return err
+		}
+		for idx, thought := range thoughts {
+			err = Thought(thought, idx, false).Render(ctx, templBuffer)
 			if err != nil {
 				return err
 			}
+		}
+		_, err = templBuffer.WriteString("</div>")
+		if err != nil {
+			return err
 		}
 		if !templIsBuffer {
 			_, err = io.Copy(w, templBuffer)
@@ -102,7 +106,7 @@ func MindPage(mind *domain.Mind) templ.Component {
 				templBuffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templBuffer)
 			}
-			_, err = templBuffer.WriteString("<div id=\"thoughts-container\">")
+			_, err = templBuffer.WriteString("<div id=\"thoughts-container\"><div class=\"mb-4\">")
 			if err != nil {
 				return err
 			}
@@ -135,7 +139,7 @@ func MindPage(mind *domain.Mind) templ.Component {
 			if err != nil {
 				return err
 			}
-			_, err = templBuffer.WriteString(" ")
+			_, err = templBuffer.WriteString("</div>")
 			if err != nil {
 				return err
 			}

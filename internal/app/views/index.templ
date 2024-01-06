@@ -12,6 +12,7 @@ templ Index(pageName string) {
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 			<title>{ pageName }</title>
 			<script src="/static/js/htmx.min.js"></script>
+			<script src="https://unpkg.com/alpinejs" defer></script>
 			<script src="https://cdn.tailwindcss.com"></script>
 			<script>
 				tailwind.config = {
@@ -23,6 +24,7 @@ templ Index(pageName string) {
 					}
 				}
   		</script>
+			<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 		</head>
 		<body>
 			{ children... }

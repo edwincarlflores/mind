@@ -5,26 +5,44 @@ import (
 	shared "github.com/edwincarlflores/mind/internal/app/views/shared"
 )
 
-templ Thought(thought *domain.Thought) {
-	<div class="flex flex-row space-x-3">
-		<p>{ thought.Body }</p>
-		<input
- 			type="checkbox"
- 			checked?={ thought.Public }
-		/>
+templ Thought(thought *domain.Thought, idx int, isBlank bool) {
+	<div class="relative w-full max-w-xs mx-auto space-x-3 my-4">
+		<textarea
+ 			x-data="{ 
+            resize () { 
+              $el.style.height = &#39;15px&#39;; 
+              $el.style.height = 60 + $el.scrollHeight + &#39;px&#39;
+            } 
+        }"
+ 			x-init="resize()"
+ 			@input="resize()"
+ 			type="text"
+ 			placeholder="What are you thinking?"
+ 			class="flex relative z-20 peer w-full h-auto min-h-[80px] px-3 py-2 text-sm bg-white border-2 border-neutral-900 placeholder:text-neutral-500 focus:text-neutral-800 focus:border-neutral-900 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+		>
+			if !isBlank {
+				{ thought.Body }
+			}
+		</textarea>
+		<div class="absolute inset-0 z-10  h-full duration-300 ease-out translate-x-2 translate-y-2 bg-black peer-focus:m-0 peer-focus:translate-x-0 peer-focus:translate-y-0"></div>
 	</div>
 }
 
 templ Thoughts(thoughts []*domain.Thought) {
-	for _, thought := range thoughts {
-		@Thought(thought)
-	}
+	<div class="columns-3">
+		@Thought(nil, -1, true)
+		for idx, thought := range thoughts {
+			@Thought(thought, idx, false)
+		}
+	</div>
 }
 
 templ MindPage(mind *domain.Mind) {
 	@shared.Page("Mind", mind.User.Username) {
 		<div id="thoughts-container">
-			Hi { mind.User.Name } ({ mind.User.Username })
+			<div class="mb-4">
+				Hi { mind.User.Name } ({ mind.User.Username })
+			</div>
 			@Thoughts(mind.Thoughts)
 		</div>
 	}

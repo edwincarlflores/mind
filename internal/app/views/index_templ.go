@@ -40,7 +40,7 @@ func Index(pageName string) templ.Component {
 		if err != nil {
 			return err
 		}
-		_, err = templBuffer.WriteString("</script><script src=\"https://cdn.tailwindcss.com\">")
+		_, err = templBuffer.WriteString("</script><script src=\"https://unpkg.com/alpinejs\" defer>")
 		if err != nil {
 			return err
 		}
@@ -49,11 +49,20 @@ func Index(pageName string) templ.Component {
 		if err != nil {
 			return err
 		}
+		_, err = templBuffer.WriteString("</script><script src=\"https://cdn.tailwindcss.com\">")
+		if err != nil {
+			return err
+		}
+		var_5 := ``
+		_, err = templBuffer.WriteString(var_5)
+		if err != nil {
+			return err
+		}
 		_, err = templBuffer.WriteString("</script><script>")
 		if err != nil {
 			return err
 		}
-		var_5 := `
+		var_6 := `
 				tailwind.config = {
 					theme: {
 						container: {
@@ -63,7 +72,16 @@ func Index(pageName string) templ.Component {
 					}
 				}
   		`
-		_, err = templBuffer.WriteString(var_5)
+		_, err = templBuffer.WriteString(var_6)
+		if err != nil {
+			return err
+		}
+		_, err = templBuffer.WriteString("</script><script src=\"https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js\">")
+		if err != nil {
+			return err
+		}
+		var_7 := ``
+		_, err = templBuffer.WriteString(var_7)
 		if err != nil {
 			return err
 		}
